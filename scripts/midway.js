@@ -78,8 +78,15 @@ class GameData
 
 class Game
 {
+	// draw image to canvas
+	
+
+
+	
+	
   constructor()
   {
+	  
     console.log(`Welcome to the game.  Version ${this.version()}.`);
 
     this.loadSound();
@@ -134,8 +141,19 @@ class Game
                             51 + (k * 90 + Math.floor(i / 3) * 30));
         }
       }
+	  
+
+
     }
 
+var image = document.getElementById('source');
+
+this.ctx.drawImage(image, 0, 0, 30, 30, 90, 700, 30, 30);
+
+var myImage = new DragImage(sourcePath, x, y);
+
+// jsfiddle to drag image on canvas
+// http://jsfiddle.net/Zevan/QZejF/3/
 
     // this.stage = new createjs.Stage(this.canvas);
 

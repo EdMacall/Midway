@@ -1,0 +1,41 @@
+/**
+ * div with irregular shapes with css3 and html5 (SO)
+ * http://stackoverflow.com/questions/12126731/div-with-irregular-shapes-with-css3-and-html5/12128398#12128398
+   answer here http://stackoverflow.com/a/12128398/703717
+ */
+ 
+div{
+box-sizing:border-box;
+}
+.container{
+overflow:hidden;
+width:32em;
+height:32em;
+margin:5.6em auto 0;
+background:silver;
+}
+.grid{
+/*transform*/
+-webkit-transform:skewX(-45deg) rotate(15deg) scaleX(1.785) scaleY(.8) translateX(7em) translateY(-4.5em);
+   -moz-transform:skewX(-45deg) rotate(15deg) scaleX(1.785) scaleY(.8) translateX(7em) translateY(-4.5em);
+    -ms-transform:skewX(-45deg) rotate(15deg) scaleX(1.785) scaleY(.8) translateX(7em) translateY(-4.5em);
+     -o-transform:skewX(-45deg) rotate(15deg) scaleX(1.785) scaleY(.8) translateX(7em) translateY(-4.5em);
+        transform:skewX(-45deg) rotate(15deg) scaleX(1.785) scaleY(.8) translateX(7em) translateY(-4.5em);
+}
+.grid-row{
+width:32em;
+}
+.grid-cell{
+float:left;
+width:2em;
+height:2em;
+}
+.high{
+/*box-shadow*/
+box-shadow:.2em .2em 0 dimgrey;
+background:gainsboro;
+cursor:pointer;
+}
+.high:hover{
+background:whitesmoke;
+}

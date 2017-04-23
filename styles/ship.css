@@ -1,0 +1,15 @@
+html, body{
+	width:100%;
+	height:100%;
+	overflow:hidden;
+}
+
+.popup_click{
+	border:none;
+	width:100px;
+	text-align:center;
+}
+	
+.popup_click #popup_title{
+	
+}

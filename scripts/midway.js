@@ -35,6 +35,7 @@ function canvasSupport()
 
 function canvasApp() 
 {
+<<<<<<< HEAD
   if (!canvasSupport())
   {
     return;
@@ -72,6 +73,35 @@ function canvasApp()
 		
     // drawScreen();
     console.log(`Welcome to the game.  Version ${version()}.`);
+=======
+	// draw image to canvas
+	
+
+
+	
+	
+  constructor()
+  {
+	  
+    console.log(`Welcome to the game.  Version ${this.version()}.`);
+
+    this.loadSound();
+
+    this.canvas = document.getElementById("game-canvas");
+
+    this.ctx = this.canvas.getContext("2d");
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+
+
+    for(var i = 0; i < 23; i++)
+    {
+      this.ctx.moveTo(((i === 0) || ((i + 2) % 3 === 0)) ? 0 : 31,
+                      i * 30 + 1);
+      this.ctx.lineTo(841, i * 30 + 1);
+      this.ctx.stroke();
+    }
+>>>>>>> 5129de4849d6c1ea5b01c85b553b67e60668311e
 
 
     board = new Board();
@@ -121,6 +151,7 @@ function canvasApp()
       {
         tempShape = new SimpleSquareParticle(tempX, tempY);
       }
+<<<<<<< HEAD
 			
       tempShape.color = tempColor;
       tempShape.radius = tempRad;
@@ -138,6 +169,52 @@ function canvasApp()
     mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
     mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
 				
+=======
+	  
+
+
+    }
+
+var image = document.getElementById('source');
+
+this.ctx.drawImage(image, 0, 0, 30, 30, 90, 700, 30, 30);
+
+var myImage = new DragImage(sourcePath, x, y);
+
+// jsfiddle to drag image on canvas
+// http://jsfiddle.net/Zevan/QZejF/3/
+
+    // this.stage = new createjs.Stage(this.canvas);
+
+    // this.stage.width  = this.canvas.width;
+    // this.stage.height = this.canvas.height;
+
+    // window.debugStage = this.stage;
+
+    // this.stage.enableMouseOver();
+
+    // enable tap on touch device
+    // createjs.Touch.enable(this.stage);
+
+    // enable retina screen
+    // this.retinalize();
+
+    // createjs.Ticker.setFPS(60);
+
+    // game related initialization
+    // this.gameData = new GameData();
+
+    // keep re-drawing the stage.
+    // createjs.Ticker.on("tick", this.stage);
+
+    // this.restartGame();
+
+    // testing code
+    /*
+    this.stage.addChild(new NumberedBox(88));
+    */
+
+>>>>>>> 5129de4849d6c1ea5b01c85b553b67e60668311e
     /*
     Below, we find if a shape was clicked. Since a "hit" on a square or a circle has to be measured differently, the
     hit test is done using the hitTest() function associated to the type of particle. This function is an instance method

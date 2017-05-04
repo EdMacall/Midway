@@ -101,7 +101,7 @@ function canvasApp()
       this.ctx.lineTo(841, i * 30 + 1);
       this.ctx.stroke();
     }
->>>>>>> 5129de4849d6c1ea5b01c85b553b67e60668311e
+
 
 
     board = new Board();
@@ -151,7 +151,7 @@ function canvasApp()
       {
         tempShape = new SimpleSquareParticle(tempX, tempY);
       }
-<<<<<<< HEAD
+
 			
       tempShape.color = tempColor;
       tempShape.radius = tempRad;
@@ -169,7 +169,7 @@ function canvasApp()
     mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
     mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
 				
-=======
+
 	  
 
 

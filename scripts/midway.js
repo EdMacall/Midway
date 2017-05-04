@@ -74,12 +74,16 @@ function canvasApp()
     // drawScreen();
     console.log(`Welcome to the game.  Version ${version()}.`);
 
+
+
+    board = new Board();
+    board.drawToContext(context);
+
+    theCanvas.addEventListener("mousedown", mouseDownListener, false);
+  }
+
+	/*
 	// draw image to canvas
-	
-
-
-	
-	
   constructor()
   {
 	  
@@ -101,14 +105,8 @@ function canvasApp()
       this.ctx.lineTo(841, i * 30 + 1);
       this.ctx.stroke();
     }
+*/
 
-
-
-    board = new Board();
-    board.drawToContext(context);
-
-    theCanvas.addEventListener("mousedown", mouseDownListener, false);
-  }
 
   function version()
   {
@@ -340,6 +338,6 @@ var myImage = new DragImage(sourcePath, x, y);
 		
     // drawShapes();		
   }
-}
+
 
 

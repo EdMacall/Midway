@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // Simple ship class
 
 function SimpleShip()
@@ -19,8 +19,6 @@ function SimpleShip()
 }
 
 
-=======
->>>>>>> 5129de4849d6c1ea5b01c85b553b67e60668311e
 $(document).ready(function() {
     $('.popup_click').show(0).draggable();
     var handle = $( ".popup_click" ).draggable( "option", "handle" );

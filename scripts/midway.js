@@ -35,7 +35,7 @@ function canvasSupport()
 
 function canvasApp() 
 {
-<<<<<<< HEAD
+
   if (!canvasSupport())
   {
     return;
@@ -73,7 +73,7 @@ function canvasApp()
 		
     // drawScreen();
     console.log(`Welcome to the game.  Version ${version()}.`);
-=======
+
 	// draw image to canvas
 	
 
@@ -214,7 +214,7 @@ var myImage = new DragImage(sourcePath, x, y);
     this.stage.addChild(new NumberedBox(88));
     */
 
->>>>>>> 5129de4849d6c1ea5b01c85b553b67e60668311e
+
     /*
     Below, we find if a shape was clicked. Since a "hit" on a square or a circle has to be measured differently, the
     hit test is done using the hitTest() function associated to the type of particle. This function is an instance method

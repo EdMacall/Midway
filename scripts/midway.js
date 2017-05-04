@@ -1,290 +1,268 @@
-// logic for the Count Game
 
-/*
-class NumberedBox extends createjs.Container
+
+// JavaScript HTML5 Canvas example by Dan Gries, rectangleworld.com.
+// The basic setup here, including the debugging code and window load listener,
+// is copied from 'HTML5 Canvas' by Fulton & Fulton.
+// Checking for browser compatibility is accomplished with
+// the Modernizr JavaScript library.
+// The latest version of the library is available at www.modernizr.com.
+
+window.addEventListener("load", windowLoadHandler, false);
+
+//For debug messages
+var Debugger = function() { };
+Debugger.log = function(message) 
 {
-  constructor(game, number = 0)
+  try 
   {
-    super();
-
-    this.game   = game;
-    this.number = number;
-
-    var movieclip = new lib.NumberedBox();
-    movieclip.numberText.text = number;
-
-    movieclip.numberText.font = "28px Oswald";
-    movieclip.numberText.textBaseline = "alphabet";
-    movieclip.numberText.x += 2;
-    movieclip.numberText.y = 38;
-
-    new createjs.ButtonHelper(movieclip, 0, 1, 2, false,
-                              new lib.RestartButton(), 3);
-
-    this.addChild(movieclip);
-
-    this.setBounds(0, 0, 50, 50);
-
-    // handle click / tap
-    this.on('click', this.handleClick.bind(this));
-
-    // random position
-    /*
-    movieclip.x = Math.random() * 200;
-    movieclip.y = Math.random() * 200;
-    
+    console.log(message);
   }
-
-  handleClick()
+  catch (exception) 
   {
-    this.game.handleClick(this);
-    createjs.Sound.play("Jump");
+    return;
   }
 }
 
-// This class controls the game data.
-class GameData
+function windowLoadHandler() 
 {
-  constructor()
-  {
-    this.amountOfBoxes = 20;
-    this.resetData();
-  }
-
-  resetData()
-  {
-    this.currentNumber = 1;
-  }
-
-  nextNumber()
-  {
-    this.currentNumber += 1;
-  }
-
-  isRightNumber(number)
-  {
-    // console.log("The number is " + number + " and the currentNumber is " + this.currentNumber + ".")
-    return (number === this.currentNumber);
-  }
-
-  isGameWin()
-  {
-    // TODO
-    // return false;
-    return (this.currentNumber > this.amountOfBoxes);
-  }
+  canvasApp();
 }
-*/
 
-class Game
+function canvasSupport() 
 {
-  constructor()
+  return Modernizr.canvas;
+}
+
+function canvasApp() 
+{
+  if (!canvasSupport())
   {
-    console.log(`Welcome to the game.  Version ${this.version()}.`);
+    return;
+  }
+	
+  var theCanvas = document.getElementById("game-canvas");
+  var context = theCanvas.getContext("2d");
+	
+  init();
+	
+  // var numShapes;
+  // var shapes;
+  var dragIndex;
+  var dragging;
+  var mouseX;
+  var mouseY;
+  var dragHoldX;
+  var dragHoldY;
+  var timer;
+  var targetX;
+  var targetY;
+  var easeAmount;
+  var board;
 
-    this.loadSound();
-
-    this.canvas = document.getElementById("game-canvas");
-
-    this.ctx = this.canvas.getContext("2d");
-    this.ctx.lineWidth = 2;
-    this.ctx.beginPath();
-
-
-    for(var i = 0; i < 23; i++)
-    {
-      this.ctx.moveTo(((i === 0) || ((i + 2) % 3 === 0)) ? 0 : 31,
-                      i * 30 + 1);
-      this.ctx.lineTo(841, i * 30 + 1);
-      this.ctx.stroke();
-    }
-
-
-    for(var i = 0; i < 29; i++)
-    {
-      this.ctx.moveTo(i * 30 + 1,
-                      ((i === 0) || ((i + 2) % 3 === 0)) ? 0 : 31);
-      this.ctx.lineTo(i * 30 + 1, 661);
-      this.ctx.stroke();
-    }
-
-    this.ctx.font = "20px Verdana";
-
-    for(var i = 0; i < 7; i++)
-    {
-      this.ctx.fillText((i + 1), 10, 83 + (i * 90));
-    }
-
-    var string = "ABCDEFGHI";
-
-    for(var i = 0; i < 9; i++)
-    {
-      this.ctx.font = "20px Verdana";
-      
-      this.ctx.fillText(string.charAt(i), 70 + (i * 90), 23);
-
-      this.ctx.font = "10px Verdana";
-
-      for(var j = 0; j < 9; j++)
-      {
-        for(var k = 0; k < 7; k++)
-        {
-          this.ctx.fillText(string.charAt(i),
-                            43 + (j * 90 + (i % 3) * 30),
-                            51 + (k * 90 + Math.floor(i / 3) * 30));
-        }
-      }
-    }
+  var numShapes;
+	
+  function init()
+  {
+    // numShapes = 60;
+    // easeAmount = 0.45;
+		
+    // shapes = [];
+		
+    // makeShapes();
+		
+    // drawScreen();
+    console.log(`Welcome to the game.  Version ${version()}.`);
 
 
-    // this.stage = new createjs.Stage(this.canvas);
+    board = new Board();
+    board.drawToContext(context);
 
-    // this.stage.width  = this.canvas.width;
-    // this.stage.height = this.canvas.height;
-
-    // window.debugStage = this.stage;
-
-    // this.stage.enableMouseOver();
-
-    // enable tap on touch device
-    // createjs.Touch.enable(this.stage);
-
-    // enable retina screen
-    // this.retinalize();
-
-    // createjs.Ticker.setFPS(60);
-
-    // game related initialization
-    // this.gameData = new GameData();
-
-    // keep re-drawing the stage.
-    // createjs.Ticker.on("tick", this.stage);
-
-    // this.restartGame();
-
-    // testing code
-    /*
-    this.stage.addChild(new NumberedBox(88));
-    */
-
-    /*
-    var circle = new createjs.Shape();
-    circle.graphics.beginFill("yellow").drawCircle(0, 0, 40);
-    circle.x = circle.y = 100;
-    this.stage.addChild(circle);
-     */
-
-        function writeMessage(canvas, message) {
-        var context = canvas.getContext("2d");
-        context.clearRect(0, 663, canvas.width, 30);
-        context.font = '18pt Calibri';
-        context.fillStyle = 'black';
-        context.fillText(message, 10, 681);
-      }
-      function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
-        };
-      }
-
-var canvas = document.getElementById("game-canvas");
-      canvas.addEventListener('mousemove', function(evt) {
-        var mousePos = getMousePos(canvas, evt);
-        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-        writeMessage(canvas, message);
-      }, false);
-
+    theCanvas.addEventListener("mousedown", mouseDownListener, false);
   }
 
-
-  version()
+  function version()
   {
     return '1.0.0';
   }
 
-  loadSound()
-  {
-
-  }
-
-  restartGame()
-  {
-    this.gameData.resetData();
-    this.stage.removeAllChildren();
-
-    // background
-    this.stage.addChild(new lib.Background());
-
-    this.generateMultipleBoxes(this.gameData.amountOfBoxes);
-  }
-
-  generateMultipleBoxes(amount = 10)
-  {
-    for(var i = amount; i > 0; i--)
-    {
-      var movieclip = new NumberedBox(this, i);
-      this.stage.addChild(movieclip);
-
-      // random position
-      movieclip.x = Math.random() * (this.stage.width -
-      movieclip.getBounds().width);
-      movieclip.y = Math.random() * (this.stage.height -
-      movieclip.getBounds().height);
-    }
-  }
-
-  handleClick(numberedBox)
-  {
-    // var boolCrap = this.gameData.isRightNumber(numberedBox.number);
-    // console.log("boolCrap is " + boolCrap + ".");
-    if(this.gameData.isRightNumber(numberedBox.number))
-    {
-      this.stage.removeChild(numberedBox);
-      this.gameData.nextNumber();
-
-      // is game over?
-      if(this.gameData.isGameWin())
-      {
-        createjs.Sound.play("Game Over");
-
-        var gameOverView = new lib.GameOverView();
-        this.stage.addChild(gameOverView);
-
-        gameOverView.restartButton.on('click', (function(){
-          createjs.Sound.play("Jump");
-
-          this.restartGame();}).bind(this));
-      }
-    }
-  }
 
   /*
-  retinalize()
+  function makeShapes()
   {
-    this.stage.width  = this.canvas.width;
-    this.stage.height = this.canvas.height;
-
-    let ratio = window.devicePixelRatio;
-    if(ratio === undefined)
+    var i;
+    var tempX;
+    var tempY;
+    var tempRad;
+    var tempR;
+    var tempG;
+    var tempB;
+    var tempA;
+    var tempColor;
+    for (i = 0; i < numShapes; i++)
     {
-      return;
+      tempRad = 5 + Math.floor(Math.random() * 20);
+      tempX = Math.random() * (theCanvas.width - tempRad);
+      tempY = Math.random() * (theCanvas.height - tempRad);
+			
+      //we set a randomized color, including a random alpha (transparency) value.
+      //The color is set using the rgba() method.
+      tempR = Math.floor(Math.random() * 255);
+      tempG = Math.floor(Math.random() * 255);
+      tempB = Math.floor(Math.random() * 255);
+      tempA = 0.3 + 0.5 * Math.random();
+      tempColor = "rgba(" + tempR + "," + tempG + "," + tempB + "," + tempA + ")";
+			
+      //randomly select either a circle or a square
+      if (Math.random() < 0.5)
+      {
+        tempShape = new SimpleDiskParticle(tempX, tempY);
+      }
+      else
+      {
+        tempShape = new SimpleSquareParticle(tempX, tempY);
+      }
+			
+      tempShape.color = tempColor;
+      tempShape.radius = tempRad;
+      shapes.push(tempShape);
     }
-
-    this.canvas.setAttribute('width',  Math.round(this.stage.width  *  ratio));
-    this.canvas.setAttribute('height', Math.round(this.stage.height  * ratio));
-
-    this.stage.scaleX = this.stage.scaleY = ratio;
-
-    // Set CSS style
-    this.canvas.style.width  = this.stage.width  + "px";
-    this.canvas.style.height = this.stage.height + "px";
   }
   */
-}
+	
+  function mouseDownListener(evt)
+  {
+    var i;
+		
+    //getting mouse position correctly 
+    var bRect = theCanvas.getBoundingClientRect();
+    mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
+    mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
+				
+    /*
+    Below, we find if a shape was clicked. Since a "hit" on a square or a circle has to be measured differently, the
+    hit test is done using the hitTest() function associated to the type of particle. This function is an instance method
+    for both the SimpleDiskParticle and SimpleSqureParticle classes we have defined with the external JavaScript sources.		
+     */
+    for (i = 0; i < numShapes; i++)
+    {
+      if (shapes[i].hitTest(mouseX, mouseY))
+      {	
+        dragging = true;
+        //the following variable will be reset if this loop repeats with another successful hit:
+        dragIndex = i;
+      }
+    }
+		
+    if (dragging)
+    {
+      window.addEventListener("mousemove", mouseMoveListener, false);
+			
+      //place currently dragged shape on top
+      shapes.push(shapes.splice(dragIndex, 1)[0]);
+			
+      //shapeto drag is now last one in array
+      dragHoldX = mouseX - shapes[numShapes - 1].x;
+      dragHoldY = mouseY - shapes[numShapes - 1].y;
+			
+      //The "target" position is where the object should be if it were to move there instantaneously. But we will
+      //set up the code so that this target position is approached gradually, producing a smooth motion.
+      targetX = mouseX - dragHoldX;
+      targetY = mouseY - dragHoldY;
+			
+      //start timer
+      timer = setInterval(onTimerTick, 1000 / 30);
+    }
+    theCanvas.removeEventListener("mousedown", mouseDownListener, false);
+    window.addEventListener("mouseup", mouseUpListener, false);
+		
+    //code below prevents the mouse down from having an effect on the main browser window:
+    if (evt.preventDefault)
+    {
+      evt.preventDefault();
+    } //standard
+    else if (evt.returnValue)
+    {
+      evt.returnValue = false;
+    } //older IE
+    return false;
+  }
+	
+  function onTimerTick()
+  {
+    //because of reordering, the dragging shape is the last one in the array.
+    shapes[numShapes - 1].x = shapes[numShapes - 1].x + easeAmount * (targetX - shapes[numShapes - 1].x);
+    shapes[numShapes - 1].y = shapes[numShapes - 1].y + easeAmount * (targetY - shapes[numShapes - 1].y);
+		
+    //stop the timer when the target position is reached (close enough)
+    if ((!dragging) && (Math.abs(shapes[numShapes - 1].x - targetX) < 0.1) &&
+        (Math.abs(shapes[numShapes - 1].y - targetY) < 0.1))
+    {
+      shapes[numShapes - 1].x = targetX;
+      shapes[numShapes - 1].y = targetY;
+      //stop timer:
+      clearInterval(timer);
+    }
+    drawScreen();
+  }
+	
+  function mouseUpListener(evt)
+  {
+    theCanvas.addEventListener("mousedown", mouseDownListener, false);
+    window.removeEventListener("mouseup", mouseUpListener, false);
+    if (dragging)
+    {
+      dragging = false;
+      window.removeEventListener("mousemove", mouseMoveListener, false);
+    }
+  }
 
-// start the game
-var game = new Game();
+  function mouseMoveListener(evt)
+  {
+    var posX;
+    var posY;
+    var shapeRad = shapes[numShapes - 1].radius;
+    var minX = shapeRad;
+    var maxX = theCanvas.width - shapeRad;
+    var minY = shapeRad;
+    var maxY = theCanvas.height - shapeRad;
+		
+    //getting mouse position correctly 
+    var bRect = theCanvas.getBoundingClientRect();
+    mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
+    mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
+		
+    //clamp x and y positions to prevent object from dragging outside of canvas
+    posX = mouseX - dragHoldX;
+    posX = (posX < minX) ? minX : ((posX > maxX) ? maxX : posX);
+    posY = mouseY - dragHoldY;
+    posY = (posY < minY) ? minY : ((posY > maxY) ? maxY : posY);
+		
+    targetX = posX;
+    targetY = posY;
+  }
+
+  /*	
+  function drawShapes()
+  {
+    var i;
+    for (i = 0; i < numShapes; i++) {
+      //the drawing of the shape is handled by a function inside the external class.
+      //we must pass as an argument the context to which we are drawing the shape.
+      shapes[i].drawToContext(context);
+    }
+  }
+  */
+	
+  function drawScreen()
+  {
+    //bg
+    context.fillStyle = "#000000";
+    context.fillRect(0, 0, theCanvas.width, theCanvas.height);
+
+    board.drawToContext(context);
+		
+    // drawShapes();		
+  }
+}
 
 

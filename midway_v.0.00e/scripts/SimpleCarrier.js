@@ -3,7 +3,7 @@
 function SimpleCarrier()
 {
   this.name = "";
-  this.type = "CV";
+  this.type = "CV"
   this.victoryPointValue = 0;
   this.surfaceCombatFactor = 0;
   this.screeningValue = 0;
@@ -21,31 +21,7 @@ function SimpleCarrier()
   this.currentDiveBomber = 0;
   this.currentTorpedoBomber = 0
   this.currentFighter = 0;
-};
-
-function SimpleCarrier(name, type, vpv, scf, sv, dc, ht, x, y, image1, image2, side, at, idb, itb, iF, cdb, ctb, cf)
-{
-  this.name = name;
-  this.type = type;
-  this.victoryPointValue = vpv;
-  this.surfaceCombatFactor = scf;
-  this.screeningValue = sv;
-  this.damageCapacity = dc;
-  this.hitsTaken = ht;
-  this.x = x;
-  this.y = y;
-  this.image1 = image1;
-  this.image2 = image2;
-  this.side = side;
-  this.arrivalTurn = at;
-  this.initDiveBomber = idb;
-  this.initTorpedoBomber = itb;
-  this.initFighter = iF;
-  this.currentDiveBomber = cdb;
-  this.currentTorpedoBomber = ctb
-  this.currentFighter = cf;
-};
-
+}
 
 SimpleCarrier.prototype.hitTest = function(hitX, hitY)
 {
@@ -54,7 +30,5 @@ SimpleCarrier.prototype.hitTest = function(hitX, hitY)
 
 SimpleCarrier.prototype.drawToContext = function(theContext)
 {
-  theContext.drawImage(this.image1, this.x, this.y);
+
 }
-
-

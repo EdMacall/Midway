@@ -1,6 +1,6 @@
 
 
-// JavaScript HTML5 Canvas example by Dan Gries, rectangleworld.com.
+
 // The basic setup here, including the debugging code and window load listener,
 // is copied from 'HTML5 Canvas' by Fulton & Fulton.
 // Checking for browser compatibility is accomplished with
@@ -9,7 +9,7 @@
 
 window.addEventListener("load", windowLoadHandler, false);
 
-//For debug messages
+// debug messages
 var Debugger = function() { };
 Debugger.log = function(message) 
 {
@@ -59,6 +59,8 @@ function canvasApp()
   var targetY;
   var easeAmount;
   var board;
+  var ships;
+  var tempShip;
 
   var numShapes;
 	
@@ -74,10 +76,17 @@ function canvasApp()
     // drawScreen();
     console.log(`Welcome to the game.  Version ${version()}.`);
 
+    ships = [];
 
+    makeShips();
+    console.log(ships[0].name);
 
     board = new Board();
     board.drawToContext(context);
+
+    console.log(ships[0].image1);
+
+    ships[0].drawToContext(context);
 
     theCanvas.addEventListener("mousedown", mouseDownListener, false);
   }
@@ -111,6 +120,37 @@ function canvasApp()
   function version()
   {
     return '1.0.0';
+  }
+
+  function makeShips()
+  {
+    tempShip = new SimpleCarrier("Enterprise",  "CV", 10,  3,  3,  5, 0, 811, 361, document.getElementById("enterprise"), "", 1,  1, 12, 5, 8, 12, 5, 8);
+    // tempShip.image1 = document.getElementById("enterprise");
+
+    /*
+    tempShip = new SimpleCarrier();
+    tempShip.name = "Enterprise";
+    tempShip.type = "CV";
+    tempShip.victoryPointValue = 10;
+    tempShip.surfaceCombatFactor = 3;
+    tempShip.screeningValue = 3;
+    tempShip.damageCapacity = 5;
+    tempShip.hitsTaken = 0;
+    tempShip.x = 811;
+    tempShip.y = 361;
+    tempShip.image1 = document.getElementById("enterprise");
+    tempShip.image2 = "../images/pic197080_lg.jpg";
+    tempShip.side = 1;
+    tempShip.arrivalTurn = 1;
+    tempShip.initDiveBomber = 12;
+    tempShip.initTorpedoBomber = 5;
+    tempShip.intiFighter = 9;
+    tempShip.currentDiveBomber = 12;
+    tempShip.currentTorpedoBomber = 5;
+    tempShip.currentFighter = 9;
+    */
+
+    ships.push(tempShip);
   }
 
 
@@ -158,26 +198,12 @@ function canvasApp()
   }
   */
 	
-  function mouseDownListener(evt)
-  {
-    var i;
-		
-    //getting mouse position correctly 
-    var bRect = theCanvas.getBoundingClientRect();
-    mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
-    mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
-				
 
-	  
+// var image = document.getElementById('source');
 
+// this.ctx.drawImage(image, 0, 0, 30, 30, 90, 700, 30, 30);
 
-    }
-
-var image = document.getElementById('source');
-
-this.ctx.drawImage(image, 0, 0, 30, 30, 90, 700, 30, 30);
-
-var myImage = new DragImage(sourcePath, x, y);
+// var myImage = new DragImage(sourcePath, x, y);
 
 // jsfiddle to drag image on canvas
 // http://jsfiddle.net/Zevan/QZejF/3/
@@ -212,15 +238,28 @@ var myImage = new DragImage(sourcePath, x, y);
     this.stage.addChild(new NumberedBox(88));
     */
 
+  function mouseDownListener(evt)
+  {
+    var i;
+		
+    //getting mouse position correctly 
+    var bRect = theCanvas.getBoundingClientRect();
+    mouseX = (evt.clientX - bRect.left) * (theCanvas.width / bRect.width);
+    mouseY = (evt.clientY - bRect.top) * (theCanvas.height / bRect.height);
+				
 
+	  
+
+
+    
     /*
     Below, we find if a shape was clicked. Since a "hit" on a square or a circle has to be measured differently, the
     hit test is done using the hitTest() function associated to the type of particle. This function is an instance method
     for both the SimpleDiskParticle and SimpleSqureParticle classes we have defined with the external JavaScript sources.		
      */
-    for (i = 0; i < numShapes; i++)
+    for (i = 0; i < 1; i++)
     {
-      if (shapes[i].hitTest(mouseX, mouseY))
+      if (ships[i].hitTest(mouseX, mouseY))
       {	
         dragging = true;
         //the following variable will be reset if this loop repeats with another successful hit:
@@ -233,11 +272,11 @@ var myImage = new DragImage(sourcePath, x, y);
       window.addEventListener("mousemove", mouseMoveListener, false);
 			
       //place currently dragged shape on top
-      shapes.push(shapes.splice(dragIndex, 1)[0]);
+      ships.push(ships.splice(dragIndex, 1)[0]);
 			
       //shapeto drag is now last one in array
-      dragHoldX = mouseX - shapes[numShapes - 1].x;
-      dragHoldY = mouseY - shapes[numShapes - 1].y;
+      dragHoldX = mouseX - ships[0].x;
+      dragHoldY = mouseY - ships[0].y;
 			
       //The "target" position is where the object should be if it were to move there instantaneously. But we will
       //set up the code so that this target position is approached gradually, producing a smooth motion.
@@ -265,15 +304,15 @@ var myImage = new DragImage(sourcePath, x, y);
   function onTimerTick()
   {
     //because of reordering, the dragging shape is the last one in the array.
-    shapes[numShapes - 1].x = shapes[numShapes - 1].x + easeAmount * (targetX - shapes[numShapes - 1].x);
-    shapes[numShapes - 1].y = shapes[numShapes - 1].y + easeAmount * (targetY - shapes[numShapes - 1].y);
+    ships[0].x = ships[0].x + easeAmount * (targetX - ships[0].x);
+    ships[0].y = ships[0].y + easeAmount * (targetY - ships[0].y);
 		
     //stop the timer when the target position is reached (close enough)
-    if ((!dragging) && (Math.abs(shapes[numShapes - 1].x - targetX) < 0.1) &&
-        (Math.abs(shapes[numShapes - 1].y - targetY) < 0.1))
+    if ((!dragging) && (Math.abs(ships[0].x - targetX) < 0.1) &&
+        (Math.abs(ships[0].y - targetY) < 0.1))
     {
-      shapes[numShapes - 1].x = targetX;
-      shapes[numShapes - 1].y = targetY;
+      ships[0].x = targetX;
+      ships[0].y = targetY;
       //stop timer:
       clearInterval(timer);
     }
@@ -295,7 +334,7 @@ var myImage = new DragImage(sourcePath, x, y);
   {
     var posX;
     var posY;
-    var shapeRad = shapes[numShapes - 1].radius;
+    var shapeRad = ships[0].radius;
     var minX = shapeRad;
     var maxX = theCanvas.width - shapeRad;
     var minY = shapeRad;
@@ -320,10 +359,10 @@ var myImage = new DragImage(sourcePath, x, y);
   function drawShapes()
   {
     var i;
-    for (i = 0; i < numShapes; i++) {
+    for (i = 0; i 1; i++) {
       //the drawing of the shape is handled by a function inside the external class.
       //we must pass as an argument the context to which we are drawing the shape.
-      shapes[i].drawToContext(context);
+      ships[i].drawToContext(context);
     }
   }
   */
@@ -339,5 +378,5 @@ var myImage = new DragImage(sourcePath, x, y);
     // drawShapes();		
   }
 
-
+}
 

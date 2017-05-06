@@ -64,7 +64,7 @@ Board.prototype.drawToContext = function(theContext)
 }
 
 
-
+/*
 var lastClicked;
 var grid = clickableGrid(20,26,function(el,row,col,i){
     console.log("You clicked on element:",el);
@@ -97,3 +97,4 @@ function clickableGrid( rows, cols, callback ){
     }
     return grid;
 }
+*/

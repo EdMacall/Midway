@@ -63,11 +63,12 @@ function canvasApp()
   var tempShip;
 
   var numShapes;
+  var numShips;
 	
   function init()
   {
     // numShapes = 60;
-    // easeAmount = 0.45;
+    easeAmount = 0.45;
 		
     // shapes = [];
 		
@@ -86,7 +87,10 @@ function canvasApp()
 
     console.log(ships[0].image1);
 
-    ships[0].drawToContext(context);
+	for(var i = 0; i < numShips; i++)
+	{
+      ships[i].drawToContext(context);
+	}
 
     theCanvas.addEventListener("mousedown", mouseDownListener, false);
   }
@@ -124,33 +128,40 @@ function canvasApp()
 
   function makeShips()
   {
-    tempShip = new SimpleCarrier("Enterprise",  "CV", 10,  3,  3,  5, 0, 811, 361, document.getElementById("enterprise"), "", 1,  1, 12, 5, 8, 12, 5, 8);
-    // tempShip.image1 = document.getElementById("enterprise");
-
-    /*
-    tempShip = new SimpleCarrier();
-    tempShip.name = "Enterprise";
-    tempShip.type = "CV";
-    tempShip.victoryPointValue = 10;
-    tempShip.surfaceCombatFactor = 3;
-    tempShip.screeningValue = 3;
-    tempShip.damageCapacity = 5;
-    tempShip.hitsTaken = 0;
-    tempShip.x = 811;
-    tempShip.y = 361;
-    tempShip.image1 = document.getElementById("enterprise");
-    tempShip.image2 = "../images/pic197080_lg.jpg";
-    tempShip.side = 1;
-    tempShip.arrivalTurn = 1;
-    tempShip.initDiveBomber = 12;
-    tempShip.initTorpedoBomber = 5;
-    tempShip.intiFighter = 9;
-    tempShip.currentDiveBomber = 12;
-    tempShip.currentTorpedoBomber = 5;
-    tempShip.currentFighter = 9;
-    */
-
+    tempShip = new SimpleCarrier("Enterprise",    "CV", 10,  3,  3,  5, 0, 811, 361,
+                             	 document.getElementById("usships"), 1,  1, 12, 5, 8, 12, 5, 8,   0);
     ships.push(tempShip);
+    tempShip = new SimpleCarrier("Yorktown",      "CV", 10,  3,  3,  5, 0, 811, 391,
+	                             document.getElementById("usships"), 1,  1, 12, 5, 9, 12, 5, 9,  99);
+    ships.push(tempShip);
+	tempShip = new SimpleCarrier("Hornet",        "CV", 10,  3,  3,  5, 0, 811, 421,
+	                             document.getElementById("usships"), 1,  1, 12, 5, 9, 12, 5, 9,  49);
+    ships.push(tempShip);
+    tempShip =    new SimpleShip("Astoria",       "CA",  4,  6,  3,  4, 0, 811, 451,
+	                             document.getElementById("usships"), 1,  1, 149);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Minneapolis",   "CA",  4,  6,  3,  4, 0, 811, 481,
+	                             document.getElementById("usships"), 1,  1, 200);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Northampton",   "CA",  3,  6,  3,  4, 0, 811, 511,
+	                             document.getElementById("usships"), 1,  1, 249);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("New Orleans",   "CA",  4,  6,  3,  4, 0, 811, 541,
+	                             document.getElementById("usships"), 1,  1, 347);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Pensacola",     "CA",  3,  6,  3,  4, 0, 811, 571,
+	                             document.getElementById("usships"), 1,  1, 396);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Portland",      "CA",  3,  6,  3,  4, 0, 811, 601,
+	                             document.getElementById("usships"), 1,  1, 449);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Vincennes",     "CA",  3,  6,  3,  4, 0, 811, 631,
+	                             document.getElementById("usships"), 1,  1, 499);
+    ships.push(tempShip);
+	tempShip =    new SimpleShip("Atlanta",       "CL",  2,  3,  6,  3, 0, 811, 661,
+	                             document.getElementById("usships"), 1,  1, 548);
+    ships.push(tempShip);
+    numShips = 11;
   }
 
 
@@ -257,7 +268,7 @@ function canvasApp()
     hit test is done using the hitTest() function associated to the type of particle. This function is an instance method
     for both the SimpleDiskParticle and SimpleSqureParticle classes we have defined with the external JavaScript sources.		
      */
-    for (i = 0; i < 1; i++)
+    for (i = 0; i < numShips; i++)
     {
       if (ships[i].hitTest(mouseX, mouseY))
       {	
@@ -275,8 +286,8 @@ function canvasApp()
       ships.push(ships.splice(dragIndex, 1)[0]);
 			
       //shapeto drag is now last one in array
-      dragHoldX = mouseX - ships[0].x;
-      dragHoldY = mouseY - ships[0].y;
+      dragHoldX = mouseX - ships[dragIndex].x;
+      dragHoldY = mouseY - ships[dragIndex].y;
 			
       //The "target" position is where the object should be if it were to move there instantaneously. But we will
       //set up the code so that this target position is approached gradually, producing a smooth motion.
@@ -304,15 +315,15 @@ function canvasApp()
   function onTimerTick()
   {
     //because of reordering, the dragging shape is the last one in the array.
-    ships[0].x = ships[0].x + easeAmount * (targetX - ships[0].x);
-    ships[0].y = ships[0].y + easeAmount * (targetY - ships[0].y);
+    ships[dragIndex].x = ships[dragIndex].x + easeAmount * (targetX - ships[dragIndex].x);
+    ships[dragIndex].y = ships[dragIndex].y + easeAmount * (targetY - ships[dragIndex].y);
 		
     //stop the timer when the target position is reached (close enough)
-    if ((!dragging) && (Math.abs(ships[0].x - targetX) < 0.1) &&
-        (Math.abs(ships[0].y - targetY) < 0.1))
+    if ((!dragging) && (Math.abs(ships[dragIndex].x - targetX) < 0.1) &&
+        (Math.abs(ships[dragIndex].y - targetY) < 0.1))
     {
-      ships[0].x = targetX;
-      ships[0].y = targetY;
+      ships[dragIndex].x = targetX;
+      ships[dragIndex].y = targetY;
       //stop timer:
       clearInterval(timer);
     }
@@ -334,7 +345,7 @@ function canvasApp()
   {
     var posX;
     var posY;
-    var shapeRad = ships[0].radius;
+    var shapeRad = ships[dragIndex].radius;
     var minX = shapeRad;
     var maxX = theCanvas.width - shapeRad;
     var minY = shapeRad;
@@ -355,27 +366,25 @@ function canvasApp()
     targetY = posY;
   }
 
-  /*	
   function drawShapes()
   {
     var i;
-    for (i = 0; i 1; i++) {
+    for (i = 0; i < numShips; i++) {
       //the drawing of the shape is handled by a function inside the external class.
       //we must pass as an argument the context to which we are drawing the shape.
       ships[i].drawToContext(context);
     }
   }
-  */
 	
   function drawScreen()
   {
     //bg
-    context.fillStyle = "#000000";
+    context.fillStyle = "#FFFFFF";
     context.fillRect(0, 0, theCanvas.width, theCanvas.height);
 
     board.drawToContext(context);
 		
-    // drawShapes();		
+    drawShapes();		
   }
 
 }

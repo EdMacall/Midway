@@ -11,7 +11,7 @@ function SimpleCarrier()
   this.hitsTaken = 0;
   this.x = 0;
   this.y = 0;
-  this.image1 = "";
+
   this.image2 = "";
   this.side = 0;
   this.arrivalTurn = 1;
@@ -23,7 +23,7 @@ function SimpleCarrier()
   this.currentFighter = 0;
 };
 
-function SimpleCarrier(name, type, vpv, scf, sv, dc, ht, x, y, image1, image2, side, at, idb, itb, iF, cdb, ctb, cf)
+function SimpleCarrier(name, type, vpv, scf, sv, dc, ht, x, y, image2, side, at, idb, itb, iF, cdb, ctb, cf, sliceX)
 {
   this.name = name;
   this.type = type;
@@ -34,7 +34,7 @@ function SimpleCarrier(name, type, vpv, scf, sv, dc, ht, x, y, image1, image2, s
   this.hitsTaken = ht;
   this.x = x;
   this.y = y;
-  this.image1 = image1;
+
   this.image2 = image2;
   this.side = side;
   this.arrivalTurn = at;
@@ -44,6 +44,10 @@ function SimpleCarrier(name, type, vpv, scf, sv, dc, ht, x, y, image1, image2, s
   this.currentDiveBomber = cdb;
   this.currentTorpedoBomber = ctb
   this.currentFighter = cf;
+  this.StartX = this.x;
+  this.StartY = this.y;
+  this.sliceX = sliceX;
+  this.sliceY = 0;
 };
 
 
@@ -54,7 +58,9 @@ SimpleCarrier.prototype.hitTest = function(hitX, hitY)
 
 SimpleCarrier.prototype.drawToContext = function(theContext)
 {
-  theContext.drawImage(this.image1, this.x, this.y);
+  console.log(this.name + " is being drawn at " + this.x + " " + this.y);
+
+  theContext.drawImage(this.image2, this.sliceX, this.sliceY, 49, 49, this.x, this.y, 30, 30);
 }
 
 

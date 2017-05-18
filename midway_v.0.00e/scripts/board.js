@@ -14,6 +14,7 @@ Board.prototype.drawToContext = function(theContext)
 
     theContext.lineWidth = 2;
     theContext.beginPath();
+	theContext.fillStyle = "#000000";
 
 
     for(var i = 0; i < 23; i++)

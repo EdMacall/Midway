@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Sortable - Snap to Grid</title>
+
+<style>
+#box {
+    width: 100px;
+    height: 100px;
+    background: green;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+}
+#grid {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border: 1px solid #999;
+    margin: 120px auto 0 auto;
+}
+#grid div {
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+#grid #a {
+    border-right: 1px solid #ccc;
+    width: 99px;
+}
+#grid #c {
+    border-right: 1px solid #ccc;
+    width: 99px;
+    height: 99px;
+    border-top: 1px solid #ccc;
+}
+#grid #d {
+    border-top: 1px solid #ccc;
+    height: 99px;
+}
+div#box.dropped {
+    background: silver;
+}
+div#grid.focus {
+    border: 1px solid red;
+}
+</style>
+
+  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+   
+
+</head>
+<body>
+ <div id="box"></div>
+
+<div id="grid">
+    <div id="a"></div>
+    <div id="b"></div>
+    <div id="c"></div>
+    <div id="d"></div>
+</div>
+ 
+   <script>
+ $('#box').draggable();
+
+$('div', '#grid').each(function() {
+    var $div = $(this);
+    $div.droppable({
+        drop: function() {
+            $('#box').addClass('dropped').
+            css({
+                top: $div.offset().top,
+                left: $div.offset().left
+            });
+            $('#grid').addClass('focus');
+        }
+    });
+});
+  </script>
+</body>
+</html>

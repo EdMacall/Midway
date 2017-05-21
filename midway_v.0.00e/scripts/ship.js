@@ -46,7 +46,7 @@ SimpleShip.prototype.hitTest = function(hitX, hitY)
 
 SimpleShip.prototype.drawToContext = function(theContext)
 {
-  //console.log(this.name + " is being drawn at " + this.x + " " + this.y);
+  console.log(this.name + " is being drawn at " + this.x + " " + this.y);
 
   theContext.drawImage(this.image2, this.sliceX, this.sliceY, 49, 49, this.x, this.y, 30, 30);
 }

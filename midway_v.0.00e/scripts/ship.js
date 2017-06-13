@@ -16,9 +16,15 @@ function SimpleShip()
   this.arrivalTurn = 1;
   this.x = posX;
   this.y = posY;
+  this.initMaxSpeed = 2;
+  this.maxSpeed = 2;
+  this.StartX = this.x;
+  this.StartY = this.y;
+  this.MoveToX = this.x;
+  this.MoveToY = this.y;
 }
 
-function SimpleShip(name, type, vpv, scf, sv, dc, ht, x, y, image2, side, at, sliceX)
+function SimpleShip(name, type, vpv, scf, sv, dc, ht, x, y, maxSpeed, image2, side, at, sliceX)
 {
   this.name = name;
   this.type = type;
@@ -29,12 +35,16 @@ function SimpleShip(name, type, vpv, scf, sv, dc, ht, x, y, image2, side, at, sl
   this.hitsTaken = ht;
   this.x = x;
   this.y = y;
+  this.initMaxSpeed = maxSpeed;
+  this.maxSpeed = maxSpeed;
 
   this.image2 = image2;
   this.side = side;
   this.arrivalTurn = at;
   this.StartX = this.x;
   this.StartY = this.y;
+  this.MoveToX = this.x;
+  this.MoveToY = this.y;
   this.sliceX = sliceX;
   this.sliceY = 0;
 };
@@ -46,7 +56,7 @@ SimpleShip.prototype.hitTest = function(hitX, hitY)
 
 SimpleShip.prototype.drawToContext = function(theContext)
 {
-  console.log(this.name + " is being drawn at " + this.x + " " + this.y);
+  // console.log(this.name + " is being drawn at " + this.x + " " + this.y);
 
   theContext.drawImage(this.image2, this.sliceX, this.sliceY, 49, 49, this.x, this.y, 30, 30);
 }

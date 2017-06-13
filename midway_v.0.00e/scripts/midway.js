@@ -80,12 +80,12 @@ function canvasApp()
     ships = [];
 
     makeShips();
-    console.log(ships[0].name);
+    // console.log(ships[0].name);
 
     board = new Board();
     board.drawToContext(context);
 
-    console.log(ships[0].image1);
+    // console.log(ships[0].image1);
 
 	for(var i = 0; i < numShips; i++)
 	{
@@ -128,39 +128,40 @@ function canvasApp()
 
   function makeShips()
   {
-    tempShip = new SimpleCarrier("Enterprise",    "CV", 10,  3,  3,  5, 0, 811, 361,
+    tempShip = new SimpleCarrier("Enterprise",    "CV", 10,  3,  3,  5, 0, 811, 361, 2,
                              	 document.getElementById("usships"), 1,  1, 12, 5, 8, 12, 5, 8,   0);
     ships.push(tempShip);
-    tempShip = new SimpleCarrier("Yorktown",      "CV", 10,  3,  3,  5, 0, 811, 391,
+    tempShip = new SimpleCarrier("Yorktown",      "CV", 10,  3,  3,  5, 0, 811, 391, 2,
 	                             document.getElementById("usships"), 1,  1, 12, 5, 9, 12, 5, 9,  99);
     ships.push(tempShip);
-	tempShip = new SimpleCarrier("Hornet",        "CV", 10,  3,  3,  5, 0, 811, 421,
+	tempShip = new SimpleCarrier("Hornet",        "CV", 10,  3,  3,  5, 0, 811, 421, 2,
 	                             document.getElementById("usships"), 1,  1, 12, 5, 9, 12, 5, 9,  49);
     ships.push(tempShip);
-    tempShip =    new SimpleShip("Astoria",       "CA",  4,  6,  3,  4, 0, 811, 451,
+    tempShip =    new SimpleShip("Astoria",       "CA",  4,  6,  3,  4, 0, 811, 451, 2,
 	                             document.getElementById("usships"), 1,  1, 149);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Minneapolis",   "CA",  4,  6,  3,  4, 0, 811, 481,
+	tempShip =    new SimpleShip("Minneapolis",   "CA",  4,  6,  3,  4, 0, 811, 481, 2,
 	                             document.getElementById("usships"), 1,  1, 200);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Northampton",   "CA",  3,  6,  3,  4, 0, 811, 511,
+	tempShip =    new SimpleShip("Northampton",   "CA",  3,  6,  3,  4, 0, 811, 511, 2,
 	                             document.getElementById("usships"), 1,  1, 249);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("New Orleans",   "CA",  4,  6,  3,  4, 0, 811, 541,
+	tempShip =    new SimpleShip("New Orleans",   "CA",  4,  6,  3,  4, 0, 811, 541, 2,
 	                             document.getElementById("usships"), 1,  1, 347);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Pensacola",     "CA",  3,  6,  3,  4, 0, 811, 571,
+	tempShip =    new SimpleShip("Pensacola",     "CA",  3,  6,  3,  4, 0, 811, 571, 2,
 	                             document.getElementById("usships"), 1,  1, 396);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Portland",      "CA",  3,  6,  3,  4, 0, 811, 601,
+	tempShip =    new SimpleShip("Portland",      "CA",  3,  6,  3,  4, 0, 811, 601, 2,
 	                             document.getElementById("usships"), 1,  1, 449);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Vincennes",     "CA",  3,  6,  3,  4, 0, 811, 631,
+	tempShip =    new SimpleShip("Vincennes",     "CA",  3,  6,  3,  4, 0, 811, 631, 2,
 	                             document.getElementById("usships"), 1,  1, 499);
     ships.push(tempShip);
-	tempShip =    new SimpleShip("Atlanta",       "CL",  2,  3,  6,  3, 0, 811, 661,
+	tempShip =    new SimpleShip("Atlanta",       "CL",  2,  3,  6,  3, 0, 811, 661, 2,
 	                             document.getElementById("usships"), 1,  1, 548);
     ships.push(tempShip);
+	console.log("ships length is " + ships.length + ".");
     numShips = 11;
   }
 
@@ -275,6 +276,9 @@ function canvasApp()
         dragging = true;
         //the following variable will be reset if this loop repeats with another successful hit:
         dragIndex = i;
+		console.log("You clicked on " + ships[i].name +
+            		".\nThe dragIndex is " + dragIndex + ".");
+		break;
       }
     }
 		
@@ -284,6 +288,7 @@ function canvasApp()
 			
       //place currently dragged shape on top
       ships.push(ships.splice(dragIndex, 1)[0]);
+	  dragIndex = numShips - 1;
 			
       //shapeto drag is now last one in array
       dragHoldX = mouseX - ships[dragIndex].x;
@@ -337,6 +342,8 @@ function canvasApp()
     if (dragging)
     {
       dragging = false;
+	  targetX = 30 * Math.floor((targetX + 15) / 30) + 1;
+	  targetY = 30 * Math.floor((targetY + 15) / 30) + 1;
       window.removeEventListener("mousemove", mouseMoveListener, false);
     }
   }
@@ -345,11 +352,12 @@ function canvasApp()
   {
     var posX;
     var posY;
-    var shapeRad = ships[dragIndex].radius;
-    var minX = shapeRad;
-    var maxX = theCanvas.width - shapeRad;
-    var minY = shapeRad;
-    var maxY = theCanvas.height - shapeRad;
+    var shapeRad = 30;  // ships[dragIndex].radius;
+    console.log(ships[dragIndex].name + "\'s dragIndex is " + dragIndex + ".");
+    var minX = Math.max(ships[dragIndex].StartX - (ships[dragIndex].maxSpeed * 30), 31);
+    var maxX = Math.min(ships[dragIndex].StartX + (ships[dragIndex].maxSpeed * 30), 811); // theCanvas.width - shapeRad;
+    var minY = Math.max(ships[dragIndex].StartY - (ships[dragIndex].maxSpeed * 30), 31); // shapeRad;
+    var maxY = Math.min(ships[dragIndex].StartY + (ships[dragIndex].maxSpeed * 30), 631); // theCanvas.height - shapeRad;
 		
     //getting mouse position correctly 
     var bRect = theCanvas.getBoundingClientRect();

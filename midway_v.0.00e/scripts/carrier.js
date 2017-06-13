@@ -73,4 +73,3 @@ SimpleCarrier.prototype.drawToContext = function(theContext)
   theContext.drawImage(this.image2, this.sliceX, this.sliceY, 49, 49, this.x, this.y, 30, 30);
 }
 
-

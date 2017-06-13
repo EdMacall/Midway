@@ -164,8 +164,24 @@ function canvasApp()
 	console.log("ships length is " + ships.length + ".");
     numShips = 11;
   }
-
-
+	
+	var numShips = ships.length;
+  function displayShipsUS() {
+	  
+	  
+	  for(var i = 0; i < numShips; i++) {
+		 
+		var ships2 = document.getElementById('ships');
+		var ship_output = "<p>" + ships[i].name + "</p>";
+		console.log(ship_output);
+		
+		//ships2.innerHTML = ships2.innerHTML + ships[i].name;
+		ships2.innerHTML = ships2.innerHTML + ship_output;
+		
+		  
+	  }
+  }
+displayShipsUS();
   /*
   function makeShapes()
   {

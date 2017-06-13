@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE HTML>
 <html>
 <head>  <meta charset="utf-8">
@@ -72,7 +75,7 @@ div#grid.focus {
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 </head>
 <body>
- <div id="box"></div>
+
 
 
 <table id="grid">
@@ -740,25 +743,8 @@ div#grid.focus {
 </tbody>
 </table>
 <!-- DivTable.com -->
+<h1>U.S. Search Board</h1>
 
-
-<script>
- $('#box').draggable();
-
-$('td', '#grid').each(function() {
-    var $div = $(this);
-    $div.droppable({
-        drop: function() {
-            $('#box').addClass('dropped').
-            css({
-                top: $div.offset().top,
-                left: $div.offset().left
-            });
-            $('#grid').addClass('focus');
-        }
-    });
-});
- </script>
 </body>
 
 </html>
